@@ -57,10 +57,10 @@ namespace SC_Desktop_DataCol_DLL
                 headers.Add(extraHeaders[i]);
             }
             dm = new DatabaseManagerLocal();
-            Task.Run(() =>
-            {
-                dm.SetupFolderAndFiles(filenames.Values.ToList(), headers, sessionName, saveLocation);
-            });
+            //Task.Run(() =>
+            //{
+            dm.SetupFolderAndFiles(filenames.Values.ToList(), headers, sessionName, saveLocation);
+            //});
         }
 
         /// <summary>
