@@ -18,6 +18,8 @@ namespace SC_Desktop_DataCol_DLL
         private DatabaseManagerLocal dm;
         private EventManager em;
 
+        public ulong sessSysStartTime;
+
         //public bool IsRecording { get; set; } = false;
 
         private Task taskSendActivityData;  // Task involved in uploading activity data to DB
@@ -31,9 +33,9 @@ namespace SC_Desktop_DataCol_DLL
         };
         private List<string> headers = new List<string>() // Header line describing column names at top of data files
         {
-            "timestamp_keydown_(ms_since_boot),timestamp_keyup_(ms_since_boot),duration_(ms)",
-            "timestamp_mousemove_(ms_since_boot),abs_x,abs_y,duration_since_last_move_(ms)",
-            "timestamp_mouseclickdown_(ms_since_boot),timestamp_mouseclickup_(ms_since_boot),duration_(ms)"
+            "timestamp_keydown_(sess_start_ms),timestamp_keyup_(sess_start_ms),duration_(ms)",
+            "timestamp_mousemove_(sess_start_ms),abs_x,abs_y,duration_since_last_move_(ms)",
+            "timestamp_mouseclickdown_(sess_start_ms),timestamp_mouseclickup_(sess_start_ms),duration_(ms)"
         };
 
         /// <summary>
@@ -99,7 +101,7 @@ namespace SC_Desktop_DataCol_DLL
         {
             // Create EM
             em = new EventManager();
-            em.BeginRecording(); 
+            em.BeginRecording(sessSysStartTime); 
         }
 
         /// <summary>

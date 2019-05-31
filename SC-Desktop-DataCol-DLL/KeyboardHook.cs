@@ -111,7 +111,7 @@ namespace SC_Desktop_DataCol_DLL
                 {
                     var duration = (keyHookStruct.Time - timestamps[keyHookStruct.VirtualKeyCode]).ToString();
                     // Add key press data to array
-                    em.keypressData.Add(timestamps[keyHookStruct.VirtualKeyCode].ToString() + "," + keyHookStruct.Time.ToString() + "," + duration);
+                    em.keypressData.Add(em.ConvertToSessTime(timestamps[keyHookStruct.VirtualKeyCode]) + "," + em.ConvertToSessTime(keyHookStruct.Time) + "," + duration);
                     timestamps.Remove(keyHookStruct.VirtualKeyCode);
                 }
             }

@@ -136,7 +136,7 @@ namespace SC_Desktop_DataCol_DLL
                 {
                     //Console.WriteLine("mouse X:" + mouseHookStruct.Point.X.ToString() + " Y:" + mouseHookStruct.Point.Y.ToString() + " Time:" + mouseHookStruct.Time.ToString()+" Duration:"+(mouseHookStruct.Time-lastMouseMove).ToString());
                     // Add mouse move data to array
-                    em.mouseMoveData.Add(mouseHookStruct.Time.ToString() + "," + mouseHookStruct.Point.X.ToString() + "," + mouseHookStruct.Point.Y.ToString() + "," + (mouseHookStruct.Time - lastMouseMove).ToString());
+                    em.mouseMoveData.Add(em.ConvertToSessTime(mouseHookStruct.Time) + "," + mouseHookStruct.Point.X.ToString() + "," + mouseHookStruct.Point.Y.ToString() + "," + (mouseHookStruct.Time - lastMouseMove).ToString());
                     lastMouseMove = mouseHookStruct.Time;
                 }
                 else if (mouseClickDownEvents.Contains(wParamI)) // Mouse left/right/middle button down event
@@ -152,7 +152,7 @@ namespace SC_Desktop_DataCol_DLL
                     {
                         var duration = (mouseHookStruct.Time - mouseClickDurations[wParamI]).ToString();
                         // Add mouse click data to array
-                        em.mouseClickData.Add(mouseClickDurations[wParamI].ToString() + "," + mouseHookStruct.Time.ToString() + "," + duration);
+                        em.mouseClickData.Add(em.ConvertToSessTime(mouseClickDurations[wParamI]) + "," + em.ConvertToSessTime(mouseHookStruct.Time) + "," + duration);
                         mouseClickDurations.Remove(wParamI);
                     }
                 }

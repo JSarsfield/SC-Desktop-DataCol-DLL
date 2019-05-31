@@ -33,6 +33,8 @@ namespace SC_Desktop_DataCol_DLL
         private MouseHook mouse;
         private WindowHook window;
 
+        public ulong sessSysStartTime;
+
         public delegate IntPtr LowLevelHookProc(int nCode, IntPtr wParam, IntPtr lParam);
 
         //public List<Dictionary<string, object>> activityQueue = new List<Dictionary<string, object>>();
@@ -48,8 +50,9 @@ namespace SC_Desktop_DataCol_DLL
         {
         }
 
-        public void BeginRecording()
+        public void BeginRecording(ulong _sessSysStartTime)
         {
+            this.sessSysStartTime = _sessSysStartTime;
             this.keyboard = new KeyboardHook(this);
             this.mouse = new MouseHook(this);
             //this.window = new WindowHook(this);
@@ -60,6 +63,11 @@ namespace SC_Desktop_DataCol_DLL
             this.keyboard.Dispose();
             this.mouse.Dispose();
             //this.window.Dispose();
+        }
+
+        public String ConvertToSessTime(int time)
+        {
+            return ((ulong)time-sessSysStartTime).ToString();
         }
 
         /// <summary>
