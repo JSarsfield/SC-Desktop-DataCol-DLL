@@ -17,6 +17,7 @@ namespace SC_Desktop_DataCol_DLL
         //private static DatabaseManager dm;
         private DatabaseManagerLocal dm;
         private EventManager em;
+        public string savePath;
 
         public ulong sessSysStartTime;
 
@@ -29,13 +30,15 @@ namespace SC_Desktop_DataCol_DLL
         {
             { "keypressData", "keypressData.csv" },
             { "mouseMoveData", "mouseMoveData.csv" },
-            { "mouseClickData", "mouseClickData.csv" }
+            { "mouseClickData", "mouseClickData.csv" },
+            { "screenCaptureMetaData", "screenCaptureMetaData.csv"}
         };
         private List<string> headers = new List<string>() // Header line describing column names at top of data files
         {
             "timestamp_keydown_(sess_start_ms),timestamp_keyup_(sess_start_ms),duration_(ms)",
             "timestamp_mousemove_(sess_start_ms),abs_x,abs_y,duration_since_last_move_(ms)",
-            "timestamp_mouseclickdown_(sess_start_ms),timestamp_mouseclickup_(sess_start_ms),duration_(ms)"
+            "timestamp_mouseclickdown_(sess_start_ms),timestamp_mouseclickup_(sess_start_ms),duration_(ms)",
+            "timestamp_(sess_start_ms),frame_num"
         };
 
         /// <summary>
@@ -59,10 +62,8 @@ namespace SC_Desktop_DataCol_DLL
                 headers.Add(extraHeaders[i]);
             }
             dm = new DatabaseManagerLocal();
-            //Task.Run(() =>
-            //{
             dm.SetupFolderAndFiles(filenames.Values.ToList(), headers, sessionName, saveLocation);
-            //});
+            savePath = saveLocation + sessionName + "/";
         }
 
         /// <summary>
@@ -100,7 +101,7 @@ namespace SC_Desktop_DataCol_DLL
         public void BeginRecording()
         {
             // Create EM
-            em = new EventManager();
+            em = new EventManager(savePath);
             em.BeginRecording(sessSysStartTime); 
         }
 
@@ -110,6 +111,8 @@ namespace SC_Desktop_DataCol_DLL
         /// <returns></returns>
         public bool EndSession()
         {
+            // Stop screen capture
+            em.screenCapture.StopRecordingScreen();
             // Dispose of EM and close streams. Consider saving csv files to cloud.
             em.isRecording = false;
             System.Threading.Thread.Sleep(200); // Artifical delay to ensure we have stopped logging - Hacky but does the job
@@ -117,6 +120,7 @@ namespace SC_Desktop_DataCol_DLL
             em.mouseMoveData.RemoveAt(0); // Remove first element as we don't have duration since last move
             SaveData("mouseMoveData", new List<string>(em.mouseMoveData), null, false);
             SaveData("mouseClickData", new List<string>(em.mouseClickData), null, false);
+            SaveData("screenCaptureMetaData", new List<string>(em.screenCaptureMetaData), null, false);
             em.Dispose();
             return true;
         }

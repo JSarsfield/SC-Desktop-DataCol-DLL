@@ -32,6 +32,7 @@ namespace SC_Desktop_DataCol_DLL
         private KeyboardHook keyboard;
         private MouseHook mouse;
         private WindowHook window;
+        public ScreenCapture screenCapture;
 
         public ulong sessSysStartTime;
 
@@ -42,12 +43,14 @@ namespace SC_Desktop_DataCol_DLL
         public List<string> keypressData = new List<string>();
         public List<string> mouseMoveData = new List<string>();
         public List<string> mouseClickData = new List<string>();
+        public List<string> screenCaptureMetaData = new List<string>();
 
         public bool isRecording = true;
 
 
-        public EventManager()
+        public EventManager(string savePath)
         {
+            screenCapture = new ScreenCapture(this, savePath);
         }
 
         public void BeginRecording(ulong _sessSysStartTime)
@@ -55,6 +58,7 @@ namespace SC_Desktop_DataCol_DLL
             this.sessSysStartTime = _sessSysStartTime;
             this.keyboard = new KeyboardHook(this);
             this.mouse = new MouseHook(this);
+            this.screenCapture.BeginRecordingScreen();
             //this.window = new WindowHook(this);
         }
 
