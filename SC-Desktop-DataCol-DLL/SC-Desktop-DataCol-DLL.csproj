@@ -39,8 +39,8 @@
     <Reference Include="Accord.Video, Version=3.8.2.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
       <HintPath>..\..\SC-Desktop-Questions-App\SC-Desktop-Study-WPF\packages\Accord.Video.3.8.2-alpha\lib\net462\Accord.Video.dll</HintPath>
     </Reference>
-    <Reference Include="Accord.Video.FFMPEG.x64, Version=3.8.2.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=AMD64">
-      <HintPath>..\..\SC-Desktop-Questions-App\SC-Desktop-Study-WPF\packages\Accord.Video.FFMPEG.x64.3.8.2-alpha\lib\net462\Accord.Video.FFMPEG.x64.dll</HintPath>
+    <Reference Include="Accord.Video.FFMPEG.x64, Version=3.8.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=AMD64">
+      <HintPath>..\..\SC-Desktop-Questions-App\SC-Desktop-Study-WPF\packages\Accord.Video.FFMPEG.x64.3.8.0\lib\net462\Accord.Video.FFMPEG.x64.dll</HintPath>
     </Reference>
     <Reference Include="DnsClient, Version=1.2.0.0, Culture=neutral, PublicKeyToken=4574bb5573c51424, processorArchitecture=MSIL">
       <HintPath>..\packages\DnsClient.1.2.0\lib\net471\DnsClient.dll</HintPath>
@@ -99,7 +99,7 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\..\SC-Desktop-Questions-App\SC-Desktop-Study-WPF\packages\Accord.3.8.2-alpha\build\Accord.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\SC-Desktop-Questions-App\SC-Desktop-Study-WPF\packages\Accord.3.8.2-alpha\build\Accord.targets'))" />
-    <Error Condition="!Exists('..\..\SC-Desktop-Questions-App\SC-Desktop-Study-WPF\packages\Accord.Video.FFMPEG.x64.3.8.2-alpha\build\Accord.Video.FFMPEG.x64.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\SC-Desktop-Questions-App\SC-Desktop-Study-WPF\packages\Accord.Video.FFMPEG.x64.3.8.2-alpha\build\Accord.Video.FFMPEG.x64.targets'))" />
+    <Error Condition="!Exists('..\..\SC-Desktop-Questions-App\SC-Desktop-Study-WPF\packages\Accord.Video.FFMPEG.x64.3.8.0\build\Accord.Video.FFMPEG.x64.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\SC-Desktop-Questions-App\SC-Desktop-Study-WPF\packages\Accord.Video.FFMPEG.x64.3.8.0\build\Accord.Video.FFMPEG.x64.targets'))" />
   </Target>
-  <Import Project="..\..\SC-Desktop-Questions-App\SC-Desktop-Study-WPF\packages\Accord.Video.FFMPEG.x64.3.8.2-alpha\build\Accord.Video.FFMPEG.x64.targets" Condition="Exists('..\..\SC-Desktop-Questions-App\SC-Desktop-Study-WPF\packages\Accord.Video.FFMPEG.x64.3.8.2-alpha\build\Accord.Video.FFMPEG.x64.targets')" />
+  <Import Project="..\..\SC-Desktop-Questions-App\SC-Desktop-Study-WPF\packages\Accord.Video.FFMPEG.x64.3.8.0\build\Accord.Video.FFMPEG.x64.targets" Condition="Exists('..\..\SC-Desktop-Questions-App\SC-Desktop-Study-WPF\packages\Accord.Video.FFMPEG.x64.3.8.0\build\Accord.Video.FFMPEG.x64.targets')" />
 </Project>

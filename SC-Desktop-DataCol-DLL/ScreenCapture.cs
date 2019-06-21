@@ -60,29 +60,26 @@ namespace SC_Desktop_DataCol_DLL
             em = _em;  // reference to EM
             savePath = _savePath;
             Rectangle resolution = new Rectangle(0, 0, Convert.ToInt32(System.Windows.SystemParameters.PrimaryScreenWidth), Convert.ToInt32(System.Windows.SystemParameters.PrimaryScreenHeight));
-            stream = new ScreenCaptureStream(resolution,1); // 33ms screenshot interval is slightly faster than 30 FPS which is 33.333...ms interval
+            stream = new ScreenCaptureStream(resolution,33); // 33ms screenshot interval is slightly faster than 30 FPS which is 33.333...ms interval
             stream.NewFrame += NewFrameArrived;
-            int bitRate = ((Convert.ToInt32(System.Windows.SystemParameters.PrimaryScreenWidth) * Convert.ToInt32(System.Windows.SystemParameters.PrimaryScreenHeight)) * 15);
-            writer = new VideoFileWriter
+            int bitRate = ((Convert.ToInt32(System.Windows.SystemParameters.PrimaryScreenWidth) * Convert.ToInt32(System.Windows.SystemParameters.PrimaryScreenHeight)) * 30);
+            writer = new VideoFileWriter();
+            /*
             {
                 Width = Convert.ToInt32(System.Windows.SystemParameters.PrimaryScreenWidth),
                 Height = Convert.ToInt32(System.Windows.SystemParameters.PrimaryScreenHeight),
-                //FrameRate = new Rational(15),
-                VideoCodec = VideoCodec.Mpeg4
-                //BitRate = bitRate
+                //FrameRate = new Rational(30),
+                VideoCodec = VideoCodec.H264,
+                BitRate = bitRate
             };
-            writer.VideoOptions["vsync"] = "drop";
-            writer.VideoOptions["preset"] = "ultrafast";
-            writer.VideoOptions["tune"] = "zerolatency";
+            writer.VideoOptions["vsync"] = "drop";*/
+            //writer.VideoOptions["copyts"] = "";
+            //writer.VideoOptions["preset"] = "ultrafast";
+            //writer.VideoOptions["tune"] = "zerolatency";
         }
 
         public void NewFrameArrived(object sender, NewFrameEventArgs eventArgs)
         {
-            // Get timestamp
-            TimeSpan frameTimestamp = GetCurrentSessTime();
-            //string frameTS = frameTimestamp.
-            if (frameNum == 0)
-                firstFrameTimestamp = TimeSpan.FromMilliseconds((long)GetTickCount64());
             // Get Frame
             Bitmap bitmap = eventArgs.Frame;
 
@@ -91,7 +88,7 @@ namespace SC_Desktop_DataCol_DLL
             {
                 CURSORINFO pci;
                 pci.cbSize = System.Runtime.InteropServices.Marshal.SizeOf(typeof(CURSORINFO));
-
+                
                 if (GetCursorInfo(out pci))
                 {
                     if (pci.flags == CURSOR_SHOWING)
@@ -105,13 +102,20 @@ namespace SC_Desktop_DataCol_DLL
             // Add frame to writer
             try
             {
-                writer.WriteVideoFrame(bitmap, TimeSpan.FromMilliseconds((long)GetTickCount64())); // , TimeSpan.FromMilliseconds((long)GetTickCount64()) - firstFrameTimestamp , frameTimestamp - firstFrameTimestamp
+                // Get timestamp
+                TimeSpan frameTimestamp = TimeSpan.FromMilliseconds((long)GetTickCount64());
+                //string frameTS = frameTimestamp.
+                if (frameNum == 0)
+                    firstFrameTimestamp = frameTimestamp;
+                TimeSpan frameTs = frameTimestamp - firstFrameTimestamp;
+                //TimeSpan frameVidTime = frameTimestamp - firstFrameTimestamp;
+                writer.WriteVideoFrame(bitmap, frameTs); // , TimeSpan.FromMilliseconds((long)GetTickCount64()) - firstFrameTimestamp , frameTimestamp - firstFrameTimestamp
                 if (frameNum % 120 == 0) // Flush every ~4 seconds
                 {
                     writer.Flush();
                 }
                 // Save screen capture metadata to csv
-                em.screenCaptureMetaData.Add(frameTimestamp.TotalMilliseconds.ToString() + "," + frameNum.ToString());
+                em.screenCaptureMetaData.Add(TimestampToSessTime(frameTimestamp) + "," + frameTs.TotalMilliseconds.ToString());
                 Console.WriteLine(frameNum.ToString());
                 frameNum += 1;
             }
@@ -121,14 +125,20 @@ namespace SC_Desktop_DataCol_DLL
             }
         }
 
-        public TimeSpan GetCurrentSessTime()
+        public string TimestampToSessTime(TimeSpan ts)
         {
-            return TimeSpan.FromMilliseconds((long)((ulong)GetTickCount64() - em.sessSysStartTime));
+            return (ts-TimeSpan.FromMilliseconds((long)(em.sessSysStartTime))).TotalMilliseconds.ToString();
         }
 
         public bool BeginRecordingScreen()
         {
-            writer.Open(savePath + "screenCaptureVideo.mp4");
+            int bitRate = ((Convert.ToInt32(System.Windows.SystemParameters.PrimaryScreenWidth) * Convert.ToInt32(System.Windows.SystemParameters.PrimaryScreenHeight)) * 30);
+            writer.Open(savePath + "screenCaptureVideo.mov", 
+                Convert.ToInt32(System.Windows.SystemParameters.PrimaryScreenWidth), 
+                Convert.ToInt32(System.Windows.SystemParameters.PrimaryScreenHeight),
+                 new Rational(30),
+                 VideoCodec.MPEG4,
+                 bitRate);
             stream.Start();
             return true;
         }

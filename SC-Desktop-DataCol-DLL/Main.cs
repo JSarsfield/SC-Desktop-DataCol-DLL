@@ -38,7 +38,7 @@ namespace SC_Desktop_DataCol_DLL
             "timestamp_keydown_(sess_start_ms),timestamp_keyup_(sess_start_ms),duration_(ms)",
             "timestamp_mousemove_(sess_start_ms),abs_x,abs_y,duration_since_last_move_(ms)",
             "timestamp_mouseclickdown_(sess_start_ms),timestamp_mouseclickup_(sess_start_ms),duration_(ms)",
-            "timestamp_(sess_start_ms),frame_num"
+            "timestamp_(sess_start_ms),frame_timestamp"
         };
 
         /// <summary>
