@@ -116,7 +116,6 @@ namespace SC_Desktop_DataCol_DLL
                 }
                 // Save screen capture metadata to csv
                 em.screenCaptureMetaData.Add(TimestampToSessTime(frameTimestamp) + "," + frameTs.TotalMilliseconds.ToString());
-                Console.WriteLine(frameNum.ToString());
                 frameNum += 1;
             }
             catch
