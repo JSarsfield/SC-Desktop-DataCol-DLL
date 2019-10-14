@@ -16,7 +16,7 @@ namespace SC_Desktop_DataCol_DLL
     /// Record the screen and save to encoded video format at desired FPS
     /// </summary>
     /// 
-    class ScreenCapture
+    public class ScreenCapture
     {
         // These native references are for capturing the mouse cursor position and icon for drawing onto screen capture
 

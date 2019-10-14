@@ -27,7 +27,7 @@ namespace SC_Desktop_DataCol_DLL
     /// Responds to events and sends data to DatabaseManager through MainController class.
     /// Releasing unmanaged resources follows the dispose pattern using SafeHandle https://docs.microsoft.com/en-us/dotnet/standard/garbage-collection/implementing-dispose
     /// </summary>
-    class EventManager : IDisposable
+    public class EventManager : IDisposable
     {
         private KeyboardHook keyboard;
         private MouseHook mouse;

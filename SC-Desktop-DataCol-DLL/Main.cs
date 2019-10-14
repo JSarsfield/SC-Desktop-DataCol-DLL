@@ -16,7 +16,7 @@ namespace SC_Desktop_DataCol_DLL
         private String computername;
         //private static DatabaseManager dm;
         private DatabaseManagerLocal dm;
-        private EventManager em;
+        public EventManager em;
         public string savePath;
 
         public ulong sessSysStartTime;
