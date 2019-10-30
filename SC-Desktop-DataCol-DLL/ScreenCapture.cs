@@ -8,6 +8,7 @@ using Accord.Video;
 using Accord.Video.FFMPEG;
 using System.Drawing;
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
 
 namespace SC_Desktop_DataCol_DLL
 {
